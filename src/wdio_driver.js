@@ -13,7 +13,7 @@ const chromeCapability = {
         "--no-sandbox",
         "--enable-automation",
         "--disable-gpu",
-        "--headless", // Do Not Show Web Window
+        // "--headless", // Do Not Show Web Window
         "--window-size=1920,1040" // Window Size
       ]
     }

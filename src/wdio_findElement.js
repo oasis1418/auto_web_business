@@ -17,7 +17,7 @@ const getEl = async xpath => {
       return elements;
     }
   } catch (error) {
-    throw new Error(`엘리먼트 찾기 실패 : ${error}`);
+    console.log(`엘리먼트 찾기 실패 : ${error}`)
   }
 };
 

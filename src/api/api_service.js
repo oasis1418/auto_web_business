@@ -1,11 +1,10 @@
 import axios from "axios";
 
-export const getSpreadOrginData = async () => {
+export const getSpreadOrginData = async (spreadsheetUrl) => {
   try {
     let dataList = [];
-    let res = await axios.get(
-      `https://docs.google.com/spreadsheets/d/1Eh8DsiHD1Jwsdg-pPvoLSvxarVGeWCE3rr-YwND8TSo/gviz/tq?`
-    );
+    let res = await axios.get(spreadsheetUrl);
+    // https://docs.google.com/spreadsheets/d/1Eh8DsiHD1Jwsdg-pPvoLSvxarVGeWCE3rr-YwND8TSo/gviz/tq?tq=select+*+where+A=%22company%22&gid=0
     const resData = res.data;
     const resDataFilter = resData.slice(resData.indexOf("(") + 1, resData.indexOf("})") + 1);
     const resDataJson = JSON.parse(resDataFilter);
@@ -23,7 +22,7 @@ export const getSpreadOrginData = async () => {
     }
     return dataList;
   } catch (e) {
-    console.log("[API] getSpreadOrginData Error : ", e);
+    console.log(`[API] getSpreadOrginData Error ( ${spreadsheetUrl} ): `, e);
   }
 };
 export const sendSpread = async paramList => {
