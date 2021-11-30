@@ -9,6 +9,7 @@ export async function coupangUiController(businessNumber) {
     // await driver.switchToFrame('//*[@id="merchant-signup"]/div/div/ul/li[3]/div/div/div/iframe');
     // const searchInput = await driver.$$('//*[@class="recaptcha-checkbox-border"]');
     // await searchInput[0].click();
+    const businessNumberList = businessNumber.split("");
 
     // page check
     const pageCheckEl = await getEl('//*[@id="coupangEatsServiceAgree"]');
@@ -18,17 +19,18 @@ export async function coupangUiController(businessNumber) {
     }
     const bizNoEl = await getEl('//*[@id="bizNo"]');
     await bizNoEl[0].click();
-    await driver.pause(1000);
-    await bizNoEl[0].setValue(businessNumber);
-    await driver.pause(1000);
+    for (let i = 0; i < businessNumberList.length; i++) {
+      const businessNumberSplit = businessNumberList[i];
+      await bizNoEl[0].addValue(businessNumberSplit);
+    }
+    // await bizNoEl[0].setValue(businessNumber);
+    // const loginIdEl = await getEl('//*[@id="loginId"]');
+    // await loginIdEl[0].click();
+    await driver.pause(500);
 
-    const loginIdEl = await getEl('//*[@id="loginId"]');
-    await loginIdEl[0].click();
-    await driver.pause(2000);
-
-    // const bizConfirmBtnEl = await getEl('//*[@class="focus-placeholder "]');
-    // await bizConfirmBtnEl[0].click();
-    // await driver.pause(2000);
+    const bizConfirmBtnEl = await getEl('//*[@class="focus-placeholder "]');
+    await bizConfirmBtnEl[0].click();
+    await driver.pause(500);
     const bizFieldErrorEl = await driver.$$('//*[@class="field-error "]');
 
 
