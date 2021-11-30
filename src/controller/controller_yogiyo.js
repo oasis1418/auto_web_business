@@ -10,6 +10,12 @@ export async function yogiyoUiController(businessNumber) {
     const thirdBizNumber = businessNumber.slice(7, 12);
 
     await driver.navigateTo("https://owner.yogiyo.co.kr/owner/join/request/");
+    // page check
+    const pageCheckEl = await getEl('//*[@class="tbl-caption frst"]');
+    if (pageCheckEl.length < 1) {
+      console.log("=================Not Found yogiyo Page====================")
+      process.exit();
+    }
     const inputEl1 = await getEl('//*[@name="cn1"]');
     await inputEl1[0].click();
     await inputEl1[0].setValue(firstBizNumber);
@@ -28,5 +34,6 @@ export async function yogiyoUiController(businessNumber) {
     return resultText;
   } catch (e) {
     console.log("[CONTROLLER] yogiyoUiController Error : ", e);
+    process.exit();
   }
 }

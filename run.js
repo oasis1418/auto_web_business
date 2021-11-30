@@ -10,6 +10,8 @@ const filterUrl = `https://docs.google.com/spreadsheets/d/1Eh8DsiHD1Jwsdg-pPvoLS
  */
 async function run() {
   try {
+    let coupang;
+    let yogiyo;
     // [get] arguments
     console.log('arguments: ' + process.argv.slice(2));
     const selectCaseNo = process.argv.slice(2);
@@ -29,16 +31,17 @@ async function run() {
       } else {
         // coupang
         if (selectCaseNo == 0 || selectCaseNo == 1) {
-          const coupang = await coupangUiController(resBusinessData.businessNumber);
-          console.log(`coupang value YN : ${coupang}`)
-          if (coupang) {
+          coupang = await coupangUiController(resBusinessData.businessNumber);
+          if (coupang.includes("미가입")) {
             resBusinessData.coupang = "미가입";
+          }
+          if (coupang.includes("정확히")) {
+            resBusinessData.coupang = coupang;
           }
         }
         // yogiyo
         if (selectCaseNo == 0 || selectCaseNo == 2) {
-          const yogiyo = await yogiyoUiController(resBusinessData.businessNumber);
-          console.log(`yogiyo value YN : ${yogiyo}`)
+          yogiyo = await yogiyoUiController(resBusinessData.businessNumber);
           if (yogiyo.includes("가능")) {
             resBusinessData.yogiyo = "미가입";
           }
@@ -48,9 +51,13 @@ async function run() {
           
         }
         // send spreadsheet
-        console.log(`get ui data : ${resBusinessData.coupang}, `, resBusinessData.yogiyo);
+        console.log(`company : ${resBusinessData.company}  =========================================`)
+        console.log(`condition coupang : ${coupang}`)
+        console.log(`condition yogiyo  : ${yogiyo}`)
+        console.log(`[SEND BEFORE] : ${resBusinessData.coupang}, `, resBusinessData.yogiyo);
         if (resBusinessData.coupang || resBusinessData.yogiyo) {
-          console.log(`if get ui data : ${resBusinessData.coupang}, `, resBusinessData.yogiyo);
+          console.log(`[SEND] =========================================`)
+          console.log(`[SEND AFTER] : ${resBusinessData.coupang}, `, resBusinessData.yogiyo);
           const mapAddress = "https://map.naver.com/v5/search/" + resBusinessData.company;
           resBusinessData.SHEET = "business_data";
           resBusinessData.naver_map = `=HYPERLINK("${mapAddress}","지도검색(${resBusinessData.company})")`;
