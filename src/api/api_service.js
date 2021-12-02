@@ -8,8 +8,11 @@ export const getSpreadOrginData = async (spreadsheetUrl) => {
     const resData = res.data;
     const resDataFilter = resData.slice(resData.indexOf("(") + 1, resData.indexOf("})") + 1);
     const resDataJson = JSON.parse(resDataFilter);
+    console.log("cols data 1 : ", JSON.stringify(resDataJson.table.cols));
+    console.log("rows data 1 : ", JSON.stringify(resDataJson.table.rows));
+    const resCols = resDataJson.table.cols;
     const resRows = resDataJson.table.rows;
-    const keys = resRows[0].c.map(data => data.v);
+    const keys = resCols.map(data => data.label);
     for (let i = 1; i < resRows.length; i++) {
       const values = resRows[i].c;
       const data = {};
